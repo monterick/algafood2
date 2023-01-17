@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.example.algafood.domain.exceptions.EntidadeEmUsoException;
 import com.example.algafood.domain.exceptions.EntidadeNaoEncontradaException;
 import com.example.algafood.domain.model.Cozinha;
 import com.example.algafood.domain.repository.CozinhaRepository;
@@ -34,7 +36,7 @@ public class CozinhaService {
     public Cozinha alterarCozinha(long id, Cozinha cozinha) {
         Optional<Cozinha> cozinhaAtual = buscarCozinha(id);
         if (cozinhaAtual.isPresent()) {
-            BeanUtils.copyProperties(cozinha, cozinhaAtual);
+            BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
             salvarCozinha(cozinhaAtual.get());
         }
         return cozinhaAtual.get();
@@ -46,6 +48,8 @@ public class CozinhaService {
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(
                     String.format("Cozinha de código %d não está cadastrado no sistema", id));
+        } catch (DataIntegrityViolationException e) {
+            throw new EntidadeEmUsoException(String.format("Cozinha de código %d está em uso no sistema ", id));
         }
     }
 
