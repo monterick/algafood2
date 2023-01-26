@@ -5,8 +5,10 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.example.algafood.domain.exceptions.EntidadeNaoEncontrada;
 import com.example.algafood.domain.model.Cozinha;
 import com.example.algafood.repository.CozinhaRepository;
 
@@ -37,6 +39,14 @@ public class CozinhaService {
          
        }
        return cozinhaAtual.get();
+    }
+
+    public void removerCozinha(long id){
+     try{ 
+      cozinhaRepository.deleteById(id);
+     }catch(EmptyResultDataAccessException e){
+       throw new EntidadeNaoEncontrada(String.format("Cozinha de codigo %d não está cadastrada no sistema", id));
+     }
     }
 
 }
