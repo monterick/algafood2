@@ -43,6 +43,10 @@ public class CozinhaService {
        return cozinhaAtual.get();
     }
 
+    public List<Cozinha> listarPorNome(String nome){
+       return cozinhaRepository.findTodasByNome(nome);
+    }
+
     public void removerCozinha(long id){
      try{ 
       cozinhaRepository.deleteById(id);

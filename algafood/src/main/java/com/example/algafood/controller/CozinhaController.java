@@ -67,5 +67,9 @@ public class CozinhaController {
        return ResponseEntity.badRequest().body(e.getMessage());
      }
     }
+    @GetMapping("/busca_por_nome/{nome}")
+    public List<Cozinha> buscarPorNome(@PathVariable(value = "nome") String nome){
+     return cozinhaService.listarPorNome(nome);
+    }
 
 }
