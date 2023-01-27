@@ -1,4 +1,4 @@
-package com.example.algafood;
+package com.example.algafood.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.algafood.domain.exceptions.EntidadeEmUsoException;
 import com.example.algafood.domain.exceptions.EntidadeNaoEncontrada;
 import com.example.algafood.domain.model.Cozinha;
 import com.example.algafood.service.CozinhaService;
@@ -62,6 +63,8 @@ public class CozinhaController {
       return ResponseEntity.noContent().build();
      }catch(EntidadeNaoEncontrada e){
       return ResponseEntity.notFound().build();
+     }catch(EntidadeEmUsoException e){
+       return ResponseEntity.badRequest().body(e.getMessage());
      }
     }
 

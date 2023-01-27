@@ -1,4 +1,4 @@
-package com.example.algafood;
+package com.example.algafood.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
