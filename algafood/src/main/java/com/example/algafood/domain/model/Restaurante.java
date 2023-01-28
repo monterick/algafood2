@@ -11,9 +11,8 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Restaurante {
-
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column
     private String nome;
@@ -45,7 +44,6 @@ public class Restaurante {
     public void setCozinha(Cozinha cozinha) {
         this.cozinha = cozinha;
     }
-
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -66,5 +64,6 @@ public class Restaurante {
             return false;
         return true;
     }
+
     
 }

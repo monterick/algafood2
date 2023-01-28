@@ -13,6 +13,7 @@ public class Cozinha {
     private long id;
     @Column
     private String nome;
+
     public long getId() {
         return id;
     }
@@ -46,6 +47,5 @@ public class Cozinha {
         return true;
     }
 
-    
     
 }
