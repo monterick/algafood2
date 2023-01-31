@@ -13,6 +13,8 @@ import com.example.algafood.domain.model.Restaurante;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
 
 
 
@@ -22,7 +24,7 @@ public class RestauranteRepositoryImpl {
   @PersistenceContext
   EntityManager entityManager;
 
-  public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal ){
+  public List<Restaurante> find2(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal ){
      var jpql = new StringBuilder();
      jpql.append("from Restaurante where 0 = 0 ");
 
@@ -49,6 +51,15 @@ public class RestauranteRepositoryImpl {
 
      return query.getResultList();
      
+  }
+
+  public List<Restaurante> find(String nome, BigDecimal taxaInicial,BigDecimal taxaFinal){
+     CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+     CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
+     criteria.from(Restaurante.class);
+
+     TypedQuery<Restaurante> query = entityManager.createQuery(criteria);
+     return query.getResultList();
   }
 
 }
