@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.service.CozinhaService;
+import com.algaworks.algafood.exceptions.EntidadeEmUsoException;
 import com.algaworks.algafood.exceptions.EntidadeNaoEncontradaException;
 
 @RestController
@@ -58,6 +59,8 @@ public class CozinhaController {
         return ResponseEntity.noContent().build();
       }catch(EntidadeNaoEncontradaException e){
         return ResponseEntity.notFound().build();
+      }catch(EntidadeEmUsoException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
       }
     }
 }
