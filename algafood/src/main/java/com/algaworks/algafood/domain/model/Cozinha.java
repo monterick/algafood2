@@ -1,4 +1,4 @@
-package com.example.algafood.domain.model;
+package com.algaworks.algafood.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +13,6 @@ public class Cozinha {
     private long id;
     @Column
     private String nome;
-
     public long getId() {
         return id;
     }
@@ -48,4 +47,5 @@ public class Cozinha {
     }
 
     
+        
 }
