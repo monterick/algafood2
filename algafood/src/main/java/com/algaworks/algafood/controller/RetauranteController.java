@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.RestauranteService;
+import com.algaworks.algafood.exceptions.EntidadeNaoEncontradaException;
+
 
 
 
@@ -38,8 +41,13 @@ public class RetauranteController {
         return ResponseEntity.notFound().build();
     }
     @PostMapping
-    public Restaurante salvarRestaurante(@RequestBody Restaurante restaurante){
-       return restauranteService.salvarRestaurante(restaurante);
+    public ResponseEntity<?> salvarRestaurante(@RequestBody Restaurante restaurante){
+      try{
+       Restaurante restaurante2 = restauranteService.salvarRestaurante(restaurante); 
+       return ResponseEntity.status(HttpStatus.CREATED).body(restaurante2);
+      }catch(EntidadeNaoEncontradaException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+      }
     }
     
 
