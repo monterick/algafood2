@@ -8,6 +8,7 @@ import com.algaworks.algafood.domain.model.Restaurante;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
@@ -37,18 +38,35 @@ public class RestauranteService {
          throw new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não está cadastrada", id_cozinha));
        }
 
+       restaurante.setCozinha(cozinha.get());
+
        return restauranteRepository.save(restaurante);
       
     }
 
     public Restaurante alterarRestaurante(long id, Restaurante restaurante){
-       Optional<Restaurante> restaurante2 = buscarRestaurante(id);
-       if(restaurante2.isPresent()){
-         BeanUtils.copyProperties(restaurante, restaurante2.get(),"id");
-         salvarRestaurante(restaurante2.get());
-         return restaurante2.get();
+       Optional<Restaurante> restauranteAtual = buscarRestaurante(id);
+       if(restauranteAtual.isPresent()){
+          long id_cozinha = restaurante.getCozinha().getId();          
+            Optional<Cozinha> cozinha = cozinhaRepository.findById(id_cozinha);
+            if(cozinha.isEmpty()){
+              throw new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não está cadastrada",id));
+            }
+
+            BeanUtils.copyProperties(restaurante, restauranteAtual.get(),"id");
+            restauranteAtual.get().setCozinha(cozinha.get());           
+            return restauranteAtual.get();
+          
        }
        return null;
+    }
+
+    public void removerRestaurante(long id){
+      try{
+        restauranteRepository.deleteById(id);
+      }catch(EmptyResultDataAccessException e){
+        throw new EntidadeNaoEncontradaException(String.format("Restaurante de código %d não está cadastrado",id));
+      }
     }
 
 }

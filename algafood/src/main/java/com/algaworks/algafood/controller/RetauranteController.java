@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,6 +49,19 @@ public class RetauranteController {
       }catch(EntidadeNaoEncontradaException e){
         return ResponseEntity.badRequest().body(e.getMessage());
       }
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> alterarRestaurante(@PathVariable(value = "id") long id, @RequestBody Restaurante restaurante){
+     try{
+       Restaurante restaurante2 = restauranteService.alterarRestaurante(id, restaurante); 
+       if(restaurante2 == null){
+        return ResponseEntity.notFound().build();
+       }
+       return ResponseEntity.ok(restaurante2);   
+     }catch(EntidadeNaoEncontradaException e){
+       return ResponseEntity.badRequest().body(e.getMessage());
+     }  
+
     }
     
 
