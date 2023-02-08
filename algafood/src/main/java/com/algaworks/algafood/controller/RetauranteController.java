@@ -1,5 +1,6 @@
 package com.algaworks.algafood.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.RestauranteRepository2;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import com.algaworks.algafood.exceptions.EntidadeNaoEncontradaException;
 
@@ -28,6 +31,9 @@ public class RetauranteController {
     
     @Autowired
     RestauranteService restauranteService;
+
+    @Autowired
+    RestauranteRepository2 repository2;
 
     @GetMapping
     public List<Restaurante> listarRestaurantes(){
@@ -74,7 +80,13 @@ public class RetauranteController {
         return ResponseEntity.notFound().build(); 
       }
     }
+
+    @GetMapping("/find")
+    public List<Restaurante> find( String nome, BigDecimal taxaInicial,  BigDecimal taxaFinal){
+      return repository2.find3(nome, taxaInicial, taxaFinal);
+    }
  
+     
     
 
 }
