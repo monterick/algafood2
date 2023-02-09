@@ -82,8 +82,8 @@ public class RetauranteController {
     }
 
     @GetMapping("/find")
-    public List<Restaurante> find( String nome, BigDecimal taxaInicial,  BigDecimal taxaFinal){
-      return repository2.find3(nome, taxaInicial, taxaFinal);
+    public List<Restaurante> find( String nome, BigDecimal taxaFreteInicial,  BigDecimal taxaFreteFinal){
+      return repository2.find3(nome, taxaFreteInicial, taxaFreteFinal);
     }
  
      
